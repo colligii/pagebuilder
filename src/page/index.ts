@@ -1,5 +1,5 @@
 import { HTMLHelper } from "../htmlHelper";
-import { ClosedComponents, Component } from "./types";
+import { Component } from "../component/types";
 
 export class Page {
 
@@ -28,26 +28,8 @@ export class Page {
 
     build() {
         console.log(`start rendering ${this.title}`)
-        const html = this.component.map(component => {
-            
-            const tags = Object.entries(component.properties)
-                .map(props => (`${props[0]}="${props[1]}"`))
-            const renderTag = tags?.length ? ' '+tags.join(' ') : '';
-
-            if(HTMLHelper.isSelfClosed(component.key)) {
-                component.selfClosed = true;
-            }
-            
-            if(component.selfClosed) {
-                return `<${component.key}${renderTag}/>`
-            }
-
-            const tempComponent = component as ClosedComponents;
-
-            return `<${component.key}${renderTag}>
-    ${(tempComponent?.childs ?? []).map((_) => 'oi')}            
-</${component.key}>`
-        }).join(' ')
+        
+        const html = this.component.map(component => component.build()).join('\n');
 
         return this.preHTML(html)
     }
