@@ -4,7 +4,7 @@ export class HTMLHelper {
         img: true
     }
 
-    static isSelfClosed(tag: string) {
+    static isVoidElement(tag: string) {
         return !!this.selfClosedTags[tag];
     }
 

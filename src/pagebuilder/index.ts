@@ -1,6 +1,7 @@
 import { PageRoutes } from "./types";
 import fs from 'fs';
 import path from 'path';
+import { Css } from "../css";
 
 export class PageBuilder {
 
@@ -15,6 +16,8 @@ export class PageBuilder {
                 console.log('saving')
                 fs.writeFileSync(path.join(process.cwd(), this.outDir, 'index.html'), html, 'utf-8');
             }
+
+            Css.reset();
         })
     }
 
