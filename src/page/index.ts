@@ -5,6 +5,8 @@ import { TextComponent } from "../component/text-component";
 import { VoidComponent } from "../component/void-component";
 import { Css } from "../css";
 import { InjectHtmlComponent } from "../component/inject-html-component";
+import { Script } from "../script";
+import { StateScript } from "../script/state-script";
 
 export class Page {
 
@@ -14,7 +16,29 @@ export class Page {
         private component: Component[]
     ) {}
 
-    preHTML(buildedComponent: string) {
+    buildBody() {
+        return [
+            ...this.component,
+        ].map(component => component.build()).join('\n');
+    }
+
+    buildScript() {
+        return new InjectHtmlComponent({
+            key: 'script',
+            html: this.mixScript()
+        }).build()
+    }
+
+    mixScript() {
+        return Script.scriptJS + '\n' + StateScript.scriptJs
+    }
+
+    preHTML() {
+        const htmlContent = this.buildBody();
+        const scriptContent = this.buildScript();
+
+        const endBody = htmlContent + '\n' + scriptContent;
+
         return new ClosedComponent({
             key: 'html',
             properties: {
@@ -46,7 +70,7 @@ export class Page {
                 }),
                 new InjectHtmlComponent({
                     key: 'body',
-                    html: buildedComponent
+                    html: endBody
                 })
             ]
         })
@@ -56,7 +80,7 @@ export class Page {
     build(): string {
         console.log(`start rendering ${this.title}`)
         
-        return this.preHTML(this.component.map(component => component.build()).join('\n')).build() as string
+        return this.preHTML().build() as string
     }
 
 }

@@ -2,6 +2,7 @@ import { PageRoutes } from "./types";
 import fs from 'fs';
 import path from 'path';
 import { Css } from "../css";
+import { Script } from "../script";
 
 export class PageBuilder {
 
@@ -18,6 +19,7 @@ export class PageBuilder {
             }
 
             Css.reset();
+            Script.reset();
         })
     }
 

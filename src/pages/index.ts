@@ -1,6 +1,14 @@
 import { ClosedComponent } from "../component/closed-component";
 import { TextComponent } from "../component/text-component";
 import { Page } from "../page";
+import registerCustomScript from "../script";
+import { State } from "../script/state";
+
+registerCustomScript(() => {
+    console.log('Boa tarde pessoal')
+})
+
+const state = new State('Oudri kandra larrai')
 
 const page = new Page(
     'main-page',
@@ -8,13 +16,18 @@ const page = new Page(
     [
         new ClosedComponent({
             key: 'div',
+            events: {
+                'mouseover': state.generateScript(() => {
+                    gstate[0] = 'Ok';
+                })
+            },
             components: [
                 new ClosedComponent({
                     key: 'div',
                     components: [
                         new TextComponent({
                             key: 'span',
-                            text: 'Oudri kandra larrai'
+                            text: state
                         })
                     ]
                 })

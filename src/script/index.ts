@@ -1,5 +1,3 @@
-import { InjectHtmlComponent } from "../component/inject-html-component";
-import { TextComponent } from "../component/text-component";
 
 export class Script {
     static scripts: string[] = [];
@@ -12,14 +10,29 @@ export class Script {
         this.scripts = [...this.scripts, ...scripts];
     }
 
-    static get component() {
-        return new InjectHtmlComponent({
-            key: 'script',
-            html: this.scripts.join(';')
-        });
+    static get scriptJS() {
+        return this.scripts.join(';');
     }
 
     static reset() {
         this.scripts = [];
     }
+
+    static arrowFunctionString(arrowFn: Function) {
+        if(!arrowFn.toString().startsWith('()')) 
+            throw new Error('You don\'t provide a arrow function or your arrow function have params that is not allowed');
+    
+        return arrowFn.toString();
+    }
+
+    static arrowFunctionInsideCode(arrowFn: Function) {
+        const fn = this.arrowFunctionString(arrowFn);
+        return fn.replace('()=>{', '').replace(/}$/, '');
+    }
+
+}
+
+export default function registerCustomScript(arrowFn: Function) {
+    const code = Script.arrowFunctionInsideCode(arrowFn)
+    Script.register(code);
 }

@@ -5,7 +5,10 @@ export class VoidComponent extends BaseComponent {
     constructor(
         props: VoidComponentInput,
     ) {
-        super(props);
+        super({
+            ...props,
+            voidElement: true
+        });
     }
 }
 

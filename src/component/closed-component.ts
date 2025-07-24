@@ -14,5 +14,6 @@ export interface ClosedComponentInput {
     key: string,
     components?: Component[],
     properties?: { [p: string]: string },
-    css?: { [p: string]: string }
+    css?: { [p: string]: string },
+    events?: { [p: string]: Function }
 }
