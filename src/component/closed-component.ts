@@ -1,14 +1,18 @@
 import { BaseComponent } from "./base-component";
 import { Component } from "./types";
 
-export class ClosedComponent extends BaseComponent{
+export class ClosedComponent extends BaseComponent {
 
     constructor(
-        key: string,
-        components?: Component[],
-        properties?: {[p: string]: string},
-        css?: {[p: string]: string}
+        props: ClosedComponentInput
     ) {
-        super(key, components, false, properties, css)
+        super(props)
     }
+}
+
+export interface ClosedComponentInput {
+    key: string,
+    components?: Component[],
+    properties?: { [p: string]: string },
+    css?: { [p: string]: string }
 }

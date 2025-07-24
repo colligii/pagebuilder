@@ -6,18 +6,30 @@ const page = new Page(
     'main-page',
     'pt-br',
     [
-        new ClosedComponent('div', [
-            new ClosedComponent('div', [
-                new TextComponent('span', 'Oudri kandra larrai')
-            ])
-        ], {}, {
-            background: 'red'
+        new ClosedComponent({
+            key: 'div',
+            components: [
+                new ClosedComponent({
+                    key: 'div',
+                    components: [
+                        new TextComponent({
+                            key: 'span',
+                            text: 'Oudri kandra larrai'
+                        })
+                    ]
+                })
+            ],
+            css: {
+                background: 'red'
+            }
         }),
-        new TextComponent('span', 'Oi', undefined, {
-            background: 'red'
+        new TextComponent({
+            key: 'span',
+            text: 'Oiiiii'
         }),
-        new TextComponent('span', 'Oi', undefined, {
-            background: 'purple'
+        new TextComponent({
+            key: 'span',
+            text: 'Oiiiii'
         })
     ]
 );

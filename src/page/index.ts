@@ -4,6 +4,7 @@ import { ClosedComponent } from "../component/closed-component";
 import { TextComponent } from "../component/text-component";
 import { VoidComponent } from "../component/void-component";
 import { Css } from "../css";
+import { InjectHtmlComponent } from "../component/inject-html-component";
 
 export class Page {
 
@@ -14,22 +15,42 @@ export class Page {
     ) {}
 
     preHTML(buildedComponent: string) {
-        return new ClosedComponent('html', [
-            new ClosedComponent('head', [
-                new VoidComponent('meta', {
-                    charset: 'UTF-8'
+        return new ClosedComponent({
+            key: 'html',
+            properties: {
+                lang: this.lang
+            },
+            components: [
+                new ClosedComponent({
+                    key: 'head',
+                    components: [
+                        new VoidComponent({
+                            key: 'meta',
+                            properties: {
+                                charset: 'UTF-8'
+                            }
+                        }),
+                        new VoidComponent({
+                            key: 'meta',
+                            properties: {
+                                name: 'viewport',
+                                content: 'width=device-width, initial-scale=1.0'
+                            }
+                        }),
+                        ...Css.component,
+                        new TextComponent({
+                            key: 'title',
+                            text: this.title
+                        })
+                    ]
                 }),
-                new VoidComponent('meta', {
-                    name: 'viewport',
-                    content: 'width=device-width, initial-scale=1.0'
-                }),
-                ...Css.component,
-                new TextComponent('title', this.title)
-            ]),
-            new TextComponent('body', buildedComponent)
-        ], {
-            lang: this.lang
+                new InjectHtmlComponent({
+                    key: 'body',
+                    html: buildedComponent
+                })
+            ]
         })
+        
     }
 
     build(): string {

@@ -3,10 +3,14 @@ import { BaseComponent } from "./base-component";
 export class VoidComponent extends BaseComponent {
 
     constructor(
-        key: string,
-        properties?: {[p: string]: string},
-        css?: {[p: string]: string},
+        props: VoidComponentInput,
     ) {
-        super(key, undefined, true, properties, css);
+        super(props);
     }
+}
+
+export interface VoidComponentInput {
+    key: string;
+    properties?: { [p: string]: string },
+    css?: { [p: string]: string },
 }

@@ -10,7 +10,10 @@ export class Css {
         
         if(styles?.length) {
             return [
-                new TextComponent('style', styles.map(([key, value]) => (`.${key} {${value}}`)).join('\n'))
+                new TextComponent({
+                    key: 'style',
+                    text: styles.map(([key, value]) => (`.${key} {${value}}`)).join('\n')
+                })
             ]
         }
 
