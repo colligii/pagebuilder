@@ -2,6 +2,7 @@
   "name": "pagebuilder",
   "packageManager": "yarn@4.9.1",
   "devDependencies": {
+    "@types/html-minifier": "^4",
     "@types/node": "^24.1.0",
     "tsup": "^8.5.0",
     "tsx": "^4.20.3",
@@ -9,6 +10,8 @@
   },
   "dependencies": {
     "fs": "^0.0.1-security",
-    "path": "^0.12.7"
+    "html-minifier": "^4.0.0",
+    "path": "^0.12.7",
+    "terser": "^5.43.1"
   }
 }

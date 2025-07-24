@@ -7,6 +7,8 @@ import { Css } from "../css";
 import { InjectHtmlComponent } from "../component/inject-html-component";
 import { Script } from "../script";
 import { StateScript } from "../script/state-script";
+import { minify } from "html-minifier";
+import { Minify } from "../minfy";
 
 export class Page {
 
@@ -22,10 +24,15 @@ export class Page {
         ].map(component => component.build()).join('\n');
     }
 
-    buildScript() {
+    async buildScript() {
+        const script = await Script.minifyJs(this.mixScript());
+
+        if(!script)
+            return '';
+
         return new InjectHtmlComponent({
             key: 'script',
-            html: this.mixScript()
+            html: script
         }).build()
     }
 
@@ -33,11 +40,11 @@ export class Page {
         return Script.scriptJS + '\n' + StateScript.scriptJs
     }
 
-    preHTML() {
+    async preHTML() {
         const htmlContent = this.buildBody();
-        const scriptContent = this.buildScript();
+        const scriptContent = await this.buildScript();
 
-        const endBody = htmlContent + '\n' + scriptContent;
+        const endBody = htmlContent + '\n' + (scriptContent);
 
         return new ClosedComponent({
             key: 'html',
@@ -77,10 +84,26 @@ export class Page {
         
     }
 
-    build(): string {
+    async build(): Promise<string> {
         console.log(`start rendering ${this.title}`)
         
-        return this.preHTML().build() as string
+        const html = (await this.preHTML()).build() as string;
+
+        if(Minify.htmlMinify)
+            return minify(html, {
+                collapseWhitespace: true,
+                removeComments: true,
+                removeRedundantAttributes: true,
+                removeEmptyAttributes: true,
+                minifyCSS: true,
+                minifyJS: true,
+                sortAttributes: true,
+                sortClassName: true,
+                removeOptionalTags: true,
+                useShortDoctype: true
+            }) as string
+
+        return html;
     }
 
 }

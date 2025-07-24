@@ -1,4 +1,5 @@
 import { TextComponent } from "../component/text-component";
+import { Minify } from "../minfy";
 
 export class Css {
     static classes: {[p: string]: string} = {
@@ -21,7 +22,8 @@ export class Css {
     }
 
     static register(key: string, value: string) {
-        const endKey = key.replace(' ', '')+'-'+value.replace(' ', '');
+        const endKey = key.replace(/ {1,}|\#{1,}/ig, '')+'-'+value.replace(/ {1,}|\#{1,}/ig, '');
+        Minify.registerCss(endKey);
         this.classes[endKey] = `${key}: ${value}`;
         return endKey;
     }

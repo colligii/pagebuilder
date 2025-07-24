@@ -5,6 +5,7 @@ import { Component } from "./types";
 import { Script } from "../script";
 import { CustomString } from "../util/custom-string.type";
 import { State } from "../script/state";
+import { Minify } from "../minfy";
 
 export class BaseComponent {
 
@@ -19,6 +20,7 @@ export class BaseComponent {
     private generateRid() {
         this.props.properties = this.props.properties ?? {};
         this.props.properties.rid = randomUUID();
+        Minify.registerRid(this.props.properties?.rid);
         if(!this.selectorVar) {
             this.selectorVar = `elem${this.props.properties.rid.replace(/\-/ig, '')}Sel`;
             Script.register(`const ${this.selectorVar} = document.querySelector('[rid="${this.props.properties.rid}"]')`);
