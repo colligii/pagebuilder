@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { Css } from "../css";
 import { Script } from "../script";
+import { StateScript } from "../script/state-script";
 
 export class PageBuilder {
 
@@ -20,6 +21,7 @@ export class PageBuilder {
 
             Css.reset();
             Script.reset();
+            StateScript.reset();
         })
     }
 
