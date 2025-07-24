@@ -37,7 +37,9 @@ export class State {
 
     generateScript(fn: Function, optionalGstates: State[] = []) {
         let arrowFn = Script.arrowFunctionInsideCode(fn)
-        const gStateMatch = new Set(arrowFn.match(/gstate\[[0-9]{1,}\]/) ?? []);
+        const gStateMatch = new Set(arrowFn.match(/gstate\[[0-9]{1,}\]/ig) ?? []);
+
+        const functionsName: string[] = [];
 
         [...gStateMatch]
             .forEach(gState => {
@@ -51,11 +53,12 @@ export class State {
                     state.registerScript();
 
                 arrowFn = arrowFn.replace(new RegExp(`gstate\\[${number}\\]`, 'ig'), state.varName);
+
+                functionsName.push(StateScript.generateFunction(state.rStateId)+'()')
+
             })
 
-        const functionName = StateScript.generateFunction(this.rStateId, )
-
-        arrowFn = arrowFn + ';\n' + functionName + '()';
+        arrowFn = arrowFn + ';\n' + functionsName.join(';');
 
         arrowFn = arrowFn.replace(/\;{2,}/, ';');
 
