@@ -12,15 +12,26 @@ export class PageBuilder {
         private outDir: string = "output"
     ) { }
 
+    async createFile(html: string) {
+        const dir = path.join(process.cwd(), this.outDir);
+
+        if(!fs.existsSync(dir)) {
+            fs.mkdirSync(dir);
+        }
+
+        fs.writeFileSync(path.join(process.cwd(), this.outDir, 'index.html'), html, 'utf-8');        
+    }
+
     async buildPages(routes: PageRoutes[]) {
         for (let item of routes) {
             const html = Minify.minifyHtml(await item.component.build());
             console.log('saving')
             
             if (item.isIndex) {
-                fs.writeFileSync(path.join(process.cwd(), this.outDir, 'index.html'), html, 'utf-8');
+                this.createFile(html);
             } else {
-                fs.writeFileSync(path.join(process.cwd(), this.outDir, 'home.html'), html, 'utf-8')
+            
+                this.createFile(html);
             }
 
             Css.reset();
