@@ -85,6 +85,8 @@ export class BaseComponent {
         if (text) {
             return `<${key}${renderTag}>${text}</${key}>`
         }
+
+        return `<${key}${renderTag}></${key}>`
     }
 
 }
