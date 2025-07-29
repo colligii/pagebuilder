@@ -25,6 +25,9 @@ export class Minify {
     }
 
     static registerCss(className: string) {
+        if(this.css[className])
+            return;
+        
         this.css[className] = this.generateCode(Object.entries(this.css)?.length + 30);
     }
 
