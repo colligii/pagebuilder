@@ -9,10 +9,12 @@ import { PageBuilder } from "./pagebuilder";
 new PageBuilder().buildPages([
     {
         isIndex: true,
-        component: require('./pages/index').default
+        component: require('./pages/index').default,
+        path: '',
     },
     {
         isIndex: false,
-        component: require('./pages/home').default
+        component: require('./pages/home').default,
+        path: 'home.html'
     }
 ])
