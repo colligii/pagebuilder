@@ -1,28 +1,25 @@
 import { TextComponent } from "../component/text-component";
 import { Minify } from "../minfy";
+import { resetCss } from "./reset-css";
 
 export class Css {
-    static classes: {[p: string]: string} = {
+    static classes: { [p: string]: string } = {
 
     }
-    
+
     static get component() {
         const styles = Object.entries(this.classes);
-        
-        if(styles?.length) {
-            return [
-                new TextComponent({
-                    key: 'style',
-                    text: styles.map(([key, value]) => (`.${key} {${value}}`)).join('\n')
-                })
-            ]
-        }
 
-        return [];
+        return [
+            new TextComponent({
+                key: 'style',
+                text: styles.map(([key, value]) => (`.${key} {${value}}`)).join('\n') + `\n${resetCss}`
+            })
+        ]
     }
 
     static register(key: string, value: string) {
-        const endKey = key.replace(/ {1,}|\#{1,}/ig, '')+'-'+value.replace(/ {1,}|\#{1,}/ig, '');
+        const endKey = key.replace(/ {1,}|\#{1,}/ig, '') + '-' + value.replace(/ {1,}|\#{1,}/ig, '');
         Minify.registerCss(endKey);
         this.classes[endKey] = `${key}: ${value}`;
         return endKey;
