@@ -48,7 +48,7 @@ export class ImageComponent implements BaseComponentInterface {
                     return new VoidComponent({
                         key: 'source',
                         properties: {
-                            media: `(max-width: ${breakpoint.maxWidth}px)`,
+                            media: `(max-width: ${breakpoint.breakpointWidth ?? breakpoint.maxWidth}px)`,
                             srcset: `public/${fileName}.webp`
                         }
                     })
@@ -78,6 +78,7 @@ export interface ImageComponentInput {
 
 export interface SourceMedia {
     maxWidth: number,
+    breakpointWidth?: number,
     srcset: string,
     quality?: number;
 }
