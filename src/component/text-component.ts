@@ -11,7 +11,7 @@ export class TextComponent extends BaseComponent {
 }
 
 export interface TextComponentInput {
-    key: 'span' | 'title' | 'style',
+    key: string,
     text: CustomString,
     properties?: {[p: string]: string},
     css?: {[p: string]: string},
