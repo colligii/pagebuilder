@@ -7,15 +7,21 @@ export class Css {
 
     }
 
+    static customCss: string [];
+
     static get component() {
         const styles = Object.entries(this.classes);
 
         return [
             new TextComponent({
                 key: 'style',
-                text: styles.map(([key, value]) => (`.${key} {${value}}`)).join('\n') + `\n${resetCss}`
+                text: styles.map(([key, value]) => (`.${key} {${value}}`)).join('\n') + `\n${resetCss}\n` + this.customCss.join('\n')
             })
         ]
+    }
+
+    static registerCustomCss(css: string) {
+        this.customCss.push(css);
     }
 
     static register(key: string, value: string) {
@@ -28,5 +34,6 @@ export class Css {
 
     static reset() {
         this.classes = {};
+        this.customCss = [];
     }
 }
