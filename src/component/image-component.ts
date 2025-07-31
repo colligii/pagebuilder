@@ -25,7 +25,7 @@ export class ImageComponent implements BaseComponentInterface {
         if (!this.input?.breakpoints?.length)
             return new VoidComponent({
                 key: 'img',
-                css: this.input.css,
+                css: this.input.imgCss,
                 properties: {
                     alt: this.input.alt,
                     src: `public/${fileName}.webp`
@@ -55,6 +55,7 @@ export class ImageComponent implements BaseComponentInterface {
                 }),
                 new VoidComponent({
                     key: 'img',
+                    css: this.input.imgCss,
                     properties: {
                         alt: this.input.alt,
                         src: `public/${fileName}.webp`
@@ -68,6 +69,7 @@ export class ImageComponent implements BaseComponentInterface {
 
 export interface ImageComponentInput {
     css?: {[p: string]: string}
+    imgCss?: {[p: string]: string}
     originalMediaPath: string
     alt: string
     quality?: number;
