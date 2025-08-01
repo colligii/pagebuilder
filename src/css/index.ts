@@ -25,7 +25,7 @@ export class Css {
     }
 
     static register(key: string, value: string) {
-        let regex = / +|#+|\(+|\)+|\,+|\.+/ig
+        let regex = / +|#+|\(+|\)+|\,+|\.+|"+/ig
         const endKey = key.replace(regex, '') + '-' + value.replace(regex, '');
         Minify.registerCss(endKey);
         this.classes[endKey] = `${key}: ${value}`;

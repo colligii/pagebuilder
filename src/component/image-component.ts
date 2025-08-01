@@ -18,9 +18,16 @@ export class ImageComponent implements BaseComponentInterface {
         const fileName = this.input.originalMediaPath.split('.')[0];
         const inSrcFile = PublicPath.fileAddress(this.input.originalMediaPath);
 
-        Queue.registerPromise(sharp(inSrcFile)
+        const sharpRequest = sharp(inSrcFile)
             .webp({ quality: this.input.quality ?? 100 })
-            .toFile(PublicPath.outFileAddress(`${fileName}.webp`)))
+
+        if(this.input.width)
+            sharpRequest
+                .resize(this.input.width)
+
+        Queue.registerPromise(sharpRequest
+            .toFile(PublicPath.outFileAddress(`${fileName}.webp`))
+        );
 
         if (!this.input?.breakpoints?.length)
             return new VoidComponent({
@@ -71,6 +78,7 @@ export interface ImageComponentInput {
     css?: {[p: string]: string}
     imgCss?: {[p: string]: string}
     originalMediaPath: string
+    width?: number
     alt: string
     quality?: number;
     breakpoints?: SourceMedia[]
