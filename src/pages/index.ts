@@ -3,14 +3,14 @@ import { ImageComponent } from "../component/image-component";
 // import { ImgComponent } from "../component/img-component";
 import { TextComponent } from "../component/text-component";
 import { Page } from "../page";
-import registerCustomScript from "../script";
+import registerCustomScript, { registerSetInterval } from "../script";
 import { State } from "../script/state";
 
-registerCustomScript(() => {
-    console.log('Boa tarde pessoal')
-})
+const state = new State(1)
 
-const state = new State('Oudri kandra larrai')
+registerSetInterval(() => {
+    gstate[0] = gstate[0] + 1;
+}, 1000, [state])
 
 const page = new Page(
     'main-page',
@@ -25,11 +25,6 @@ const page = new Page(
         }),
         new ClosedComponent({
             key: 'div',
-            events: {
-                'mouseover': state.generateScript(() => {
-                    gstate[0] = 'Ok';
-                })
-            },
             components: [
                 new ClosedComponent({
                     key: 'div',
@@ -51,7 +46,7 @@ const page = new Page(
         }),
         new TextComponent({
             key: 'span',
-            text: 'Oiiiii'
+            text: state
         })
     ]
 );

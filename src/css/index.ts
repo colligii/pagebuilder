@@ -7,7 +7,7 @@ export class Css {
 
     }
 
-    static customCss: string [];
+    static customCss: string [] = [];
 
     static get component() {
         const styles = Object.entries(this.classes);
@@ -15,7 +15,7 @@ export class Css {
         return [
             new TextComponent({
                 key: 'style',
-                text: styles.map(([key, value]) => (`.${key} {${value}}`)).join('\n') + `\n${resetCss}\n` + this.customCss.join('\n')
+                text: styles.map(([key, value]) => (`.${key} {${value}}`)).join('\n') + `\n${resetCss}\n` + this.customCss?.join('\n')
             })
         ]
     }

@@ -21,6 +21,8 @@ export class State {
     get jsValue() {
         if(typeof this.value === 'string') {
             return `"${this.value}"`;
+        } else if(typeof this.value === 'number') {
+            return String(this.value)
         }
     }
 
