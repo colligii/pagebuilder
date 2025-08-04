@@ -4,9 +4,14 @@ import { StateScript } from "./state-script";
 
 export class Script {
     static scripts: string[] = [];
+    static endScript: string[] = [];
 
     static register(fn: string) {
         this.scripts.push(fn);
+    }
+
+    static registerEnd(fn: string) {
+        this.endScript.push(fn);
     }
 
     static registerMultiple(scripts: string[]) {
@@ -14,10 +19,11 @@ export class Script {
     }
 
     static get scriptJS() {
-        return this.scripts.join(';');
+        return [...this.scripts, ...this.endScript].join(';');
     }
 
     static reset() {
+        this.endScript = [];
         this.scripts = [];
     }
 
@@ -83,7 +89,7 @@ export default function registerCustomScript(arrowFn: Function, optionalgStates?
 
     code = code.replace(/\;{2,}/, ';');
 
-    Script.register(code);
+    Script.registerEnd(code);
 }
 
 export function registerSetInterval(arrowFn: Function, delay: number, optionalgStates?: State[]) {
@@ -120,5 +126,41 @@ let code = Script.arrowFunctionInsideCode(arrowFn);
 
     console.log(`setInterval(() => {${code}}, ${delay})`)
 
-    Script.register(`setInterval(() => {${code}}, ${delay})`);
+    Script.registerEnd(`setInterval(() => {${code}}, ${delay})`);
+}
+
+
+export function registerCreateFunction(arrowFn: Function, functionName: string, optionalgStates?: State[]) {
+let code = Script.arrowFunctionInsideCode(arrowFn);
+
+    const gStateMatch = new Set(code.match(/gstate\[[0-9]{1,}\]/ig) ?? []);
+
+    const functionsName: string[] = [];
+
+    [...gStateMatch]
+        .forEach(gState => {
+
+    if (!optionalgStates)
+        throw new Error('State must be defined')
+
+            let number = gState.replace(/\D{1,}/ig, '');
+            const state = optionalgStates[Number(number)];
+
+            if (!state)
+                throw new Error('State that code trying to solve is not registered on generateScript');
+
+            if (!state.scriptRegistered)
+                state.registerScript();
+
+            code = code.replace(new RegExp(`gstate\\[${number}\\]`, 'ig'), state.varName);
+
+            functionsName.push(StateScript.generateFunction(state.rStateId) + '()')
+
+        })
+
+    code = code + ';\n' + functionsName.join(';');
+
+    code = code.replace(/\;{2,}/, ';');
+
+    Script.registerEnd(`function ${functionName}() {${code}}`);
 }
