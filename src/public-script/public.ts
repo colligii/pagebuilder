@@ -25,4 +25,8 @@ export class PublicPath {
         this.createPublicDir();
         return path.join(this.outFolder, fileName);
     }
+
+    static cpToOutFolder(fileName: string) {
+        fs.copyFileSync(this.fileAddress(fileName), this.outFileAddress(fileName));
+    }
 }

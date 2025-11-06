@@ -4,12 +4,12 @@ export type PageRoutes = PageRoutesNormal | PageRoutesIndex;
 
 interface PageRoutesIndex {
     isIndex: true;
-    component: Page;
+    component: Function;
     path: string;
 }
 
 interface PageRoutesNormal {
     isIndex?: false;
-    component: Page;
+    component: Function;
     path: string
 }

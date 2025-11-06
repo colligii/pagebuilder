@@ -57,10 +57,12 @@ export class BaseComponent {
             })
         }
 
+
         if (css) {
             const styles = Object.entries(css);
             const tempClass = styles.map(([key, value]) => Css.register(key, value)).join(' ');
-            properties.class = `${properties.class ? ' ' : ''}${tempClass}`
+            
+            properties.class = `${properties.class ? properties.class+' ' : ''}${tempClass}`
         }
 
         const tags = Object.entries(properties ?? {})
@@ -80,7 +82,6 @@ export class BaseComponent {
     ${(components ?? []).map((component: any) => component.build()).join('')}            
 </${key}>`
         }
-
 
         if (text) {
             return `<${key}${renderTag}>${text}</${key}>`

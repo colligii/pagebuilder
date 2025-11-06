@@ -29,6 +29,7 @@ export class PageBuilder {
 
     async buildPages(routes: PageRoutes[]) {
         for (let item of routes) {
+            item.component = item.component();
             const html = Minify.minifyHtml(await item.component.build());
             console.log('saving')
             

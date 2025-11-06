@@ -13,6 +13,7 @@ export class InjectHtmlComponent extends BaseComponent {
 
 export interface InjectHTMLComponentInput {
     key: string,
+    events?: {[p: string]: Function},
     properties?: {[p: string]: string},
     css?: {[p: string]: string},
     html?: string,

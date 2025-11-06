@@ -11,6 +11,7 @@ export class Script {
     }
 
     static registerEnd(fn: string) {
+        console.log(fn)
         this.endScript.push(fn);
     }
 
@@ -47,12 +48,13 @@ export class Script {
                 dead_code: true,      // Remove código morto
                 unused: true,         // Remove variáveis não utilizadas
                 toplevel: true,       // Remove variáveis/funções de escopo superior se não usadas
+
             },
             mangle: {
                 toplevel: true        // Renomeia variáveis/funções globais também
-            }
+            },
         });
-        return result.code;
+        return result.code.replace(/\,__name\([a-zA-Z0-9\"\,]{1,}\)\,/ig, ';');
     }
 
 }
@@ -88,13 +90,13 @@ export default function registerCustomScript(arrowFn: Function, optionalgStates?
     code = code + ';\n' + functionsName.join(';');
 
     code = code.replace(/\;{2,}/, ';');
+    
 
     Script.registerEnd(code);
 }
 
 export function registerSetInterval(arrowFn: Function, delay: number, optionalgStates?: State[]) {
 let code = Script.arrowFunctionInsideCode(arrowFn);
-
     const gStateMatch = new Set(code.match(/gstate\[[0-9]{1,}\]/ig) ?? []);
 
     const functionsName: string[] = [];
@@ -130,8 +132,8 @@ let code = Script.arrowFunctionInsideCode(arrowFn);
 }
 
 
-export function registerCreateFunction(arrowFn: Function, functionName: string, optionalgStates?: State[]) {
-let code = Script.arrowFunctionInsideCode(arrowFn);
+export function registerCreateFunction(arrowFn: Function, functionName: string, optionalParams: string[] = [], optionalgStates?: State[]) {
+    let code = Script.arrowFunctionInsideCode(arrowFn);
 
     const gStateMatch = new Set(code.match(/gstate\[[0-9]{1,}\]/ig) ?? []);
 
@@ -162,5 +164,5 @@ let code = Script.arrowFunctionInsideCode(arrowFn);
 
     code = code.replace(/\;{2,}/, ';');
 
-    Script.registerEnd(`function ${functionName}() {${code}}`);
+    Script.registerEnd(`function ${functionName}(${optionalParams.join(', ')}) {${code}}`);
 }

@@ -58,6 +58,41 @@ export class Page {
                         new VoidComponent({
                             key: 'meta',
                             properties: {
+                                name: 'description',
+                                content: "Site oficial do casamento de Mayara e Vinicius. Aqui você encontra todos os detalhes do grande dia, lista de presentes, confirmação de presença e muito mais. Junte-se a nós nessa celebração do amor!"
+                            }
+                        }),
+                        new VoidComponent({
+                            key: 'meta',
+                            properties: {
+                                property: 'og:image',
+                                content: 'https://www.mahevini.com.br/public/logo-black.png'
+                            }
+                        }),
+                        new VoidComponent({
+                            key: 'meta',
+                            properties: {
+                                property: 'og:title',
+                                content: 'Mah e Vini'
+                            }
+                        }),
+                        new VoidComponent({
+                            key: 'meta',
+                            properties: {
+                                property: 'og:description',
+                                content: 'Site oficial do casamento de Mayara e Vinicius. Aqui você encontra todos os detalhes do grande dia, lista de presentes, confirmação de presença e muito mais. Junte-se a nós nessa celebração do amor!'
+                            }
+                        }),
+                        new VoidComponent({
+                            key: 'meta',
+                            properties: {
+                                property: 'og:url',
+                                content: "https://www.mahevini.com.br"
+                            }
+                        }),
+                        new VoidComponent({
+                            key: 'meta',
+                            properties: {
                                 charset: 'UTF-8'
                             }
                         }),

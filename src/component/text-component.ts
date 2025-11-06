@@ -13,6 +13,7 @@ export class TextComponent extends BaseComponent {
 export interface TextComponentInput {
     key: string,
     text: CustomString,
+    events?: { [p: string]: Function },
     properties?: {[p: string]: string},
     css?: {[p: string]: string},
 }

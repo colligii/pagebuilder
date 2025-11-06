@@ -89,7 +89,6 @@ export const resetCss = `html, body {
             font-size: 100%;
             font: inherit;
             vertical-align: baseline;
-            font-family: "Dancing Script", cursive;
             font-optical-sizing: auto;
             font-weight: 400;
             font-style: normal;

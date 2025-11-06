@@ -35,7 +35,9 @@ export class ImageComponent implements BaseComponentInterface {
                 css: this.input.imgCss,
                 properties: {
                     alt: this.input.alt,
-                    src: `public/${fileName}.webp`
+                    src: `/public/${fileName}.webp`,
+                    width: `${(this.input.width)}px`,
+                    ...(this.input.properties ?? {})
                 }
             }).build();
 
@@ -56,7 +58,7 @@ export class ImageComponent implements BaseComponentInterface {
                         key: 'source',
                         properties: {
                             media: `(max-width: ${breakpoint.breakpointWidth ?? breakpoint.maxWidth}px)`,
-                            srcset: `public/${fileName}.webp`
+                            srcset: `/public/${fileName}.webp`
                         }
                     })
                 }),
@@ -65,7 +67,7 @@ export class ImageComponent implements BaseComponentInterface {
                     css: this.input.imgCss,
                     properties: {
                         alt: this.input.alt,
-                        src: `public/${fileName}.webp`
+                        src: `/public/${fileName}.webp`
                     }
                 })
             ]
@@ -81,6 +83,7 @@ export interface ImageComponentInput {
     width?: number
     alt: string
     quality?: number;
+    properties?: { [p: string]: string }
     breakpoints?: SourceMedia[]
 }
 
